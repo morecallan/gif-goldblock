@@ -12,17 +12,29 @@ if (url.indexOf("http://") == -1 && url.indexOf("https://") == -1) {
 const { createServer } = require('http')
 const { get } = require('request')
 const { load } = require('cheerio')
+const { readFile } = require('fs')
 
 const server = createServer()
 
 server.on('request', (req, res) => {
   get(url, (err, _, body) => {
-    const $ = load(body)
-
-    $('img').each(function(i, img){
-      $(img).attr('src', giphyGenerator())
-    })
-    res.end($.html())
+    let $ = ""
+    if (err) {
+      readFile('./jeff.html', (err, data) => {
+        if (err) console.log(err);
+        if (data) {
+          $ = `${data}`;
+          res.end($)
+        }
+      })
+    } else {
+      $ = load(body)
+      $('img').each(function(i, img){
+        $(img).attr('src', giphyGenerator())
+      })
+      $ = $.html()
+      res.end($)
+    }
   })
 })
 
@@ -32,7 +44,6 @@ let gifGoldblums = ["https://media.giphy.com/media/l0MYCzCMjRDsgqrUk/giphy.gif",
 let jeffGetter = () => {
   get(`http://giphy.com/search/jeff-goldblum`, (err, _, body)=> {
     const $ = load(body)
-
     $('.gifs-gif').each(function(i, gif){
       gifGoldblums.push($(gif).attr("data-animated"))
     })
