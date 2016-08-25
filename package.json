@@ -2,12 +2,12 @@
   "name": "gif-goldblock",
   "version": "1.0.0",
   "description": "",
-  "main": "program.js",
+  "main": "./bin/program.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "bin": {
-    "gif-goldblock": "./program.js"
+    "gif-goldblock": "./bin/program.js"
   },
   "author": "",
   "license": "ISC",
