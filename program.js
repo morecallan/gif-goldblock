@@ -29,6 +29,17 @@ server.on('request', (req, res) => {
 server.listen(8080)
 
 let gifGoldblums = ["https://media.giphy.com/media/l0MYCzCMjRDsgqrUk/giphy.gif", "https://media.giphy.com/media/gim44Z9Ygw3Ic/giphy.gif", "https://media.giphy.com/media/mWYJsOqmvQcbm/giphy.gif", "http://www.reactiongifs.com/r/hapssh.gif", "http://www.reactiongifs.com/wp-content/uploads/2013/10/pos.gif", "https://media.giphy.com/media/HxXYHeQuEp0oU/giphy.gif", "https://media.giphy.com/media/NOLlgmFtbS6u4/giphy.gif"]
+let jeffGetter = () => {
+  get(`http://giphy.com/search/jeff-goldblum`, (err, _, body)=> {
+    const $ = load(body)
+
+    $('.gifs-gif').each(function(i, gif){
+      gifGoldblums.push($(gif).attr("data-animated"))
+    })
+  })
+}
+jeffGetter()
+
 
 const giphyGenerator = () => {
   let gifGoldblum = gifGoldblums[Math.floor(Math.random() * (gifGoldblums.length))];
